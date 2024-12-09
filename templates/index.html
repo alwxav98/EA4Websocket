@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ViewData["Title"] }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #B9ABC5 ;
+        }
+        .display-4 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .imagen-central {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <br>
+        <br>
+        <h2 class="display-4">Universidad Central del Ecuador</h2>
+        <br>
+        <img src="{{ url_for('static', filename='logoUCE.png') }}" alt="Imagen Universidad Central" class="imagen-central">
+        <br>
+        <h3 class="display-4">Facultad de Ingeniería y Ciencias Aplicadas</h3>
+        <h3 class="display-4">Sistemas de Información</h3>
+        <br>
+        <h3 class="display-4">Programación Distribuida</h3>
+        <h3 class="display-4">Tanya Alexandra Vaca Mena</h3>
+        <h3 class="display-4">SI8-002</h3>
+        <br>
+
+        <!-- Botón para enviar un mensaje -->
+        <button id="sendMessageBtn" class="btn btn-primary">Enviar mensaje</button>
+
+        <div id="response"></div> <!-- Donde se mostrará la respuesta del servidor -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+    <script>
+        // Conexión al servidor WebSocket
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Send menssage to server when clic in the bottom
+        document.getElementById('sendMessageBtn').addEventListener('click', function() {
+            socket.emit('send_message', 'Hola servidor');
+        });
+
+        // Listening to server
+        socket.on('response', function(data) {
+            document.getElementById('response').innerText = 'Respuesta del servidor: ' + data;
+        });
+    </script>
+</body>
+</html>
